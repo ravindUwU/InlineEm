@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Folder", "Solution Folder", "{A35B7DAF-CCCA-456B-BC50-A95343DCCFD2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		README.md = README.md
+		Settings.XamlStyler = Settings.XamlStyler
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InlineEm.Lib", "InlineEm.Lib\InlineEm.Lib.csproj", "{9AB25FF5-E356-4D6C-8023-6670F7228A9D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InlineEm.Gui", "InlineEm.Gui\InlineEm.Gui.csproj", "{8E213833-F0E1-4AA8-929A-49E688C519E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AB25FF5-E356-4D6C-8023-6670F7228A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB25FF5-E356-4D6C-8023-6670F7228A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB25FF5-E356-4D6C-8023-6670F7228A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB25FF5-E356-4D6C-8023-6670F7228A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E213833-F0E1-4AA8-929A-49E688C519E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E213833-F0E1-4AA8-929A-49E688C519E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E213833-F0E1-4AA8-929A-49E688C519E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E213833-F0E1-4AA8-929A-49E688C519E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FA2A79A-9C7D-4C08-ADDE-D2DF7788099B}
+	EndGlobalSection
+EndGlobal
