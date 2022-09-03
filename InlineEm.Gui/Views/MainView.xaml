@@ -70,12 +70,23 @@
 					Foreground="DarkGray"
 					TextAlignment="Center"
 					TextWrapping="Wrap">
-					Add files/folders via the &quot;+&quot; buttons above, or drag &amp; drop them here.
+					<TextBlock.Style>
+						<Style TargetType="TextBlock">
+							<Setter Property="Visibility" Value="Collapsed" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Jobs.Count}" Value="0">
+									<Setter Property="Visibility" Value="Visible" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+					Add files via the &quot;+&quot; buttons above.
 				</TextBlock>
 
 				<!-- Job list -->
 				<ListBox
 					Margin="0,6,0,0"
+					Background="Transparent"
 					BorderThickness="0"
 					ItemsSource="{Binding Jobs}"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
