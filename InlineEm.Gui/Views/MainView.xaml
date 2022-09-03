@@ -29,6 +29,7 @@
 	</Window.Resources>
 
 	<StackPanel Margin="12,6,12,12">
+
 		<GroupBox Height="320">
 			<GroupBox.Header>
 				<Grid>
@@ -36,7 +37,10 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
+
 					<TextBlock VerticalAlignment="Center">MHTML Files</TextBlock>
+
+					<!-- Job list operations -->
 					<StackPanel
 						Grid.Column="1"
 						IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}"
@@ -58,6 +62,7 @@
 			</GroupBox.Header>
 
 			<Grid>
+				<!-- Job list placeholder -->
 				<TextBlock
 					Margin="12"
 					HorizontalAlignment="Center"
@@ -68,6 +73,7 @@
 					Add files/folders via the &quot;+&quot; buttons above, or drag &amp; drop them here.
 				</TextBlock>
 
+				<!-- Job list -->
 				<ListBox
 					Margin="0,6,0,0"
 					BorderThickness="0"
@@ -87,14 +93,19 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
+
+								<!-- Job status -->
 								<Grid Width="3" Margin="3,0,6,0">
 									<Rectangle Fill="{Binding Status, Converter={StaticResource JobStatusToBrushConverter}, Mode=OneWay}" />
 								</Grid>
+
 								<Grid Grid.Column="1">
 									<Grid.RowDefinitions>
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="Auto" />
 									</Grid.RowDefinitions>
+
+									<!-- Job input & outputs -->
 									<TextBlock TextWrapping="Wrap">
 										<Run Text="{Binding Input}" />
 										<Run Foreground="DarkGray" Text="→" />
@@ -106,14 +117,16 @@
 											<ColumnDefinition Width="*" />
 											<ColumnDefinition Width="Auto" />
 										</Grid.ColumnDefinitions>
+
+										<!-- Job status -->
 										<TextBlock
 											VerticalAlignment="Center"
 											FontStyle="Italic"
 											Foreground="{Binding Status, Converter={StaticResource JobStatusToBrushConverter}, Mode=OneWay}"
 											Text="{Binding Description}"
 											TextWrapping="Wrap" />
-										<!--<Grid IsEnabled="{Binding DataContext.IsBusy, Converter={StaticResource BooleanInvertConverter}, RelativeSource={RelativeSource AncestorType=Window}}">
-											<Grid IsEnabled="{Binding Converted}">-->
+
+										<!-- Job operations -->
 										<StackPanel
 											Grid.Column="1"
 											VerticalAlignment="Top"
@@ -137,24 +150,23 @@
 												Copy
 											</Button>
 										</StackPanel>
-										<!--</Grid>
-										</Grid>-->
 									</Grid>
 								</Grid>
 							</Grid>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-
 			</Grid>
-
 		</GroupBox>
 
+		<!-- Output selection -->
 		<GroupBox
 			Margin="0,6,0,0"
 			Padding="6"
 			Header="Output">
 			<StackPanel IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}">
+
+				<!-- Same folder output preference -->
 				<RadioButton
 					Command="{Binding SetOutputFolderPreferenceCommand}"
 					CommandParameter="{x:Static vm:OutputFolderPreference.Same}"
@@ -162,6 +174,7 @@
 					Same folder
 				</RadioButton>
 
+				<!-- Specific folder output preference -->
 				<RadioButton
 					Margin="0,3,0,0"
 					HorizontalContentAlignment="Stretch"
@@ -195,11 +208,13 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
+			<!-- About -->
 			<TextBlock VerticalAlignment="Center" Foreground="DarkGray">
 				<Hyperlink NavigateUri="https://github.com/ravindUwU/InlineEm">InlineEm</Hyperlink>
 				<Run Text="v1.0.0" />
 			</TextBlock>
 
+			<!-- Convert button -->
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<Grid>
 					<Button
