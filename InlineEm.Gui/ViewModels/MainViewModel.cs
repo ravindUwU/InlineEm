@@ -21,15 +21,28 @@ public class MainViewModel : ViewModel
 		{
 			OutputFolderPreference = dir;
 
-			if (dir == OutputFolderPreference.Specific && String.IsNullOrWhiteSpace(OutputFolder))
+			if (dir == OutputFolderPreference.Specific && !OutputFolderSpecified)
 			{
-				PromptForOutputFolder();
+				if (PromptForOutputFolder() is string s)
+				{
+					OutputFolder = s;
+				}
+				else if (!OutputFolderSpecified)
+				{
+					OutputFolderPreference = OutputFolderPreference.Same;
+				}
 			}
 
 			FixJobOutputsFromPreference();
 		});
 
-		PromptForOutputFolderCommand = new DelegateCommand(() => PromptForOutputFolder());
+		PromptForOutputFolderCommand = new DelegateCommand(() =>
+		{
+			if (PromptForOutputFolder() is string s)
+			{
+				OutputFolder = s;
+			}
+		});
 
 		AddFileCommand = new DelegateCommand(() =>
 		{
@@ -101,8 +114,16 @@ public class MainViewModel : ViewModel
 	public string OutputFolder
 	{
 		get { return _OutputFolder; }
-		set { SetProperty(ref _OutputFolder, value); }
+		set
+		{
+			if (SetProperty(ref _OutputFolder, value))
+			{
+				RaisePropertyChanged(nameof(OutputFolderSpecified));
+			}
+		}
 	}
+
+	public bool OutputFolderSpecified => !String.IsNullOrWhiteSpace(OutputFolder);
 
 	private bool _IsBusy = false;
 	public bool IsBusy
@@ -117,13 +138,10 @@ public class MainViewModel : ViewModel
 		ConvertCommand?.RaiseCanExecuteChanged();
 	}
 
-	private void PromptForOutputFolder()
+	private string? PromptForOutputFolder()
 	{
 		using var dialog = new FolderBrowserDialog();
-		if (dialog.ShowDialog() == DialogResult.OK)
-		{
-			OutputFolder = dialog.SelectedPath;
-		}
+		return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
 	}
 
 	private void FixJobOutputsFromPreference()
