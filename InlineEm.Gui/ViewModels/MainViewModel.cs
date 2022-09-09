@@ -69,20 +69,29 @@ public class MainViewModel : ViewModel
 			{
 				var existingFiles = Jobs.Select((t) => t.Input).ToHashSet();
 
-				var jobs = Directory.EnumerateFiles(folder, "*.mhtml", new EnumerationOptions()
+				BusyText = "Finding MHTML files";
+
+				Task.Run(() =>
 				{
-					RecurseSubdirectories = true,
+					return Directory.EnumerateFiles(folder, "*.mhtml", new EnumerationOptions()
+					{
+						RecurseSubdirectories = true,
+					})
+						.Where((f) => !existingFiles.Contains(f))
+						.Select((f) => new Job(f));
 				})
-					.Where((f) => !existingFiles.Contains(f))
-					.Select((f) => new Job(f));
+					.ContinueWith((task) =>
+					{
+						foreach (var job in task.Result)
+						{
+							job.FixForOutputFolderPreference(OutputFolderPreference, OutputFolder);
+							Jobs.Add(job);
+						}
 
-				foreach (var job in jobs)
-				{
-					job.FixForOutputFolderPreference(OutputFolderPreference, OutputFolder);
-					Jobs.Add(job);
-				}
-
-				OnJobsChanged();
+						OnJobsChanged();
+						BusyText = null;
+					},
+					scheduler: TaskScheduler.FromCurrentSynchronizationContext());
 			}
 		});
 
