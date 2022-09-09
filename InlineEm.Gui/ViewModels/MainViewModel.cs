@@ -98,13 +98,13 @@ public class MainViewModel : ViewModel
 		ConvertCommand = new DelegateCommand(
 			() =>
 			{
-				IsBusy = true;
+				BusyText = "Converting";
 
 				var tasks = Jobs.Select((it) => it.Execute()).ToArray();
 
 				Task.WhenAll(tasks).ContinueWith((_) =>
 				{
-					IsBusy = false;
+					BusyText = null;
 				});
 			},
 			() => Jobs.Count > 0
@@ -142,12 +142,20 @@ public class MainViewModel : ViewModel
 
 	public bool OutputFolderSpecified => !String.IsNullOrWhiteSpace(OutputFolder);
 
-	private bool _IsBusy = false;
-	public bool IsBusy
+	private string? _BusyText = null;
+	public string? BusyText
 	{
-		get { return _IsBusy; }
-		set { SetProperty(ref _IsBusy, value); }
+		get { return _BusyText; }
+		set
+		{
+			if (SetProperty(ref _BusyText, value))
+			{
+				RaisePropertyChanged(nameof(IsBusy));
+			}
+		}
 	}
+
+	public bool IsBusy => !String.IsNullOrWhiteSpace(BusyText);
 
 	private void OnJobsChanged()
 	{
