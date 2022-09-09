@@ -1,12 +1,13 @@
 namespace InlineEm.Gui.Converters;
 
+using InlineEm.Gui.Mvvm;
 using InlineEm.Gui.ViewModels;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-public class JobStatusToBrushConverter : IValueConverter
+public class JobStatusToBrushConverter : Converter, IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{

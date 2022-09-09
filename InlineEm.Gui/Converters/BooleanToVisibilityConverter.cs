@@ -1,11 +1,12 @@
 namespace InlineEm.Gui.Converters;
 
+using InlineEm.Gui.Mvvm;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-public class BooleanToVisibilityConverter : IValueConverter
+public class BooleanToVisibilityConverter : Converter, IValueConverter
 {
 	public bool Invert { get; set; } = false;
 	public bool Hidden { get; set; } = false;

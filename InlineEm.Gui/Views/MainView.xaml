@@ -17,17 +17,6 @@
 		<vm:MainViewModel />
 	</Window.DataContext>
 
-	<Window.Resources>
-		<converters:ObjectEqualityToBoolConverter x:Key="ObjectEqualityToBoolConverter" />
-		<converters:JobStatusToBrushConverter x:Key="JobStatusToBrushConverter" />
-		<converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
-		<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-		<converters:BooleanToVisibilityConverter
-			x:Key="InvertedBooleanToHiddenVisibilityConverter"
-			Hidden="True"
-			Invert="True" />
-	</Window.Resources>
-
 	<StackPanel Margin="12,6,12,12">
 
 		<GroupBox Height="320">
@@ -43,7 +32,7 @@
 					<!-- Job list operations -->
 					<StackPanel
 						Grid.Column="1"
-						IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}"
+						IsEnabled="{Binding IsBusy, Converter={converters:BooleanInvertConverter}}"
 						Orientation="Horizontal">
 						<Button
 							Margin="6,0,0,0"
@@ -113,7 +102,7 @@
 
 								<!-- Job status -->
 								<Grid Width="3" Margin="3,0,6,0">
-									<Rectangle Fill="{Binding Status, Converter={StaticResource JobStatusToBrushConverter}, Mode=OneWay}" />
+									<Rectangle Fill="{Binding Status, Converter={converters:JobStatusToBrushConverter}, Mode=OneWay}" />
 								</Grid>
 
 								<Grid Grid.Column="1">
@@ -139,7 +128,7 @@
 										<TextBlock
 											VerticalAlignment="Center"
 											FontStyle="Italic"
-											Foreground="{Binding Status, Converter={StaticResource JobStatusToBrushConverter}, Mode=OneWay}"
+											Foreground="{Binding Status, Converter={converters:JobStatusToBrushConverter}, Mode=OneWay}"
 											Text="{Binding Description}"
 											TextWrapping="Wrap" />
 
@@ -181,13 +170,13 @@
 			Margin="0,6,0,0"
 			Padding="6"
 			Header="Output">
-			<StackPanel IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanInvertConverter}}">
+			<StackPanel IsEnabled="{Binding IsBusy, Converter={converters:BooleanInvertConverter}}">
 
 				<!-- Same folder output preference -->
 				<RadioButton
 					Command="{Binding SetOutputFolderPreferenceCommand}"
 					CommandParameter="{x:Static vm:OutputFolderPreference.Same}"
-					IsChecked="{Binding OutputFolderPreference, Converter={StaticResource ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Same}, Mode=OneWay}">
+					IsChecked="{Binding OutputFolderPreference, Converter={converters:ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Same}, Mode=OneWay}">
 					Same folder
 				</RadioButton>
 
@@ -197,8 +186,8 @@
 					HorizontalContentAlignment="Stretch"
 					Command="{Binding SetOutputFolderPreferenceCommand}"
 					CommandParameter="{x:Static vm:OutputFolderPreference.Specific}"
-					IsChecked="{Binding OutputFolderPreference, Converter={StaticResource ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Specific}, Mode=OneWay}">
-					<StackPanel IsEnabled="{Binding OutputFolderPreference, Converter={StaticResource ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Specific}, Mode=OneWay}">
+					IsChecked="{Binding OutputFolderPreference, Converter={converters:ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Specific}, Mode=OneWay}">
+					<StackPanel IsEnabled="{Binding OutputFolderPreference, Converter={converters:ObjectEqualityToBoolConverter}, ConverterParameter={x:Static vm:OutputFolderPreference.Specific}, Mode=OneWay}">
 						<TextBlock>Specific folder</TextBlock>
 						<Grid Margin="0,3,0,0">
 							<Grid.ColumnDefinitions>
@@ -237,10 +226,10 @@
 					<Button
 						Padding="6,1"
 						Command="{Binding ConvertCommand}"
-						Visibility="{Binding IsBusy, Converter={StaticResource InvertedBooleanToHiddenVisibilityConverter}}">
+						Visibility="{Binding IsBusy, Converter={converters:BooleanToVisibilityConverter Invert=True, Hidden=True}}">
 						_Convert
 					</Button>
-					<ProgressBar IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+					<ProgressBar IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={converters:BooleanToVisibilityConverter}}" />
 				</Grid>
 			</StackPanel>
 		</Grid>
