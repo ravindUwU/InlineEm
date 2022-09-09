@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 // TODO: Clean this up!
 
@@ -23,7 +22,7 @@ public class MainViewModel : ViewModel
 
 			if (dir == OutputFolderPreference.Specific && !OutputFolderSpecified)
 			{
-				if (PromptForOutputFolder() is string s)
+				if (FormsHelpers.GetFolder() is string s)
 				{
 					OutputFolder = s;
 				}
@@ -38,7 +37,7 @@ public class MainViewModel : ViewModel
 
 		PromptForOutputFolderCommand = new DelegateCommand(() =>
 		{
-			if (PromptForOutputFolder() is string s)
+			if (FormsHelpers.GetFolder() is string s)
 			{
 				OutputFolder = s;
 			}
@@ -46,17 +45,11 @@ public class MainViewModel : ViewModel
 
 		AddFileCommand = new DelegateCommand(() =>
 		{
-			using var dialog = new OpenFileDialog
-			{
-				Multiselect = true,
-				Filter = "MHTML Files|*.mhtml",
-			};
-
-			if (dialog.ShowDialog() == DialogResult.OK)
+			if (FormsHelpers.GetFiles("MHTML Files|*.mhtml") is string[] files)
 			{
 				var existingFiles = Jobs.Select((t) => t.Input).ToHashSet();
 
-				var jobs = dialog.FileNames
+				var jobs = files
 					.Where((n) => !existingFiles.Contains(n))
 					.Select((n) => new Job(n));
 
@@ -138,12 +131,6 @@ public class MainViewModel : ViewModel
 		ConvertCommand?.RaiseCanExecuteChanged();
 	}
 
-	private string? PromptForOutputFolder()
-	{
-		using var dialog = new FolderBrowserDialog();
-		return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
-	}
-
 	private void FixJobOutputsFromPreference()
 	{
 		foreach (var job in Jobs)
@@ -186,12 +173,7 @@ public class Job : ObservableObject
 		CopyCommand = new DelegateCommand(
 			() => File.ReadAllTextAsync(Output!).ContinueWith((task) =>
 			{
-				using var t = new TextBox()
-				{
-					Text = task.Result,
-				};
-				t.SelectAll();
-				t.Copy();
+				FormsHelpers.SetClipboardText(task.Result);
 			}),
 			() => Converted
 		);
