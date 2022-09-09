@@ -63,6 +63,29 @@ public class MainViewModel : ViewModel
 			}
 		});
 
+		AddFolderCommand = new DelegateCommand(() =>
+		{
+			if (FormsHelpers.GetFolder() is string folder)
+			{
+				var existingFiles = Jobs.Select((t) => t.Input).ToHashSet();
+
+				var jobs = Directory.EnumerateFiles(folder, "*.mhtml", new EnumerationOptions()
+				{
+					RecurseSubdirectories = true,
+				})
+					.Where((f) => !existingFiles.Contains(f))
+					.Select((f) => new Job(f));
+
+				foreach (var job in jobs)
+				{
+					job.FixForOutputFolderPreference(OutputFolderPreference, OutputFolder);
+					Jobs.Add(job);
+				}
+
+				OnJobsChanged();
+			}
+		});
+
 		ClearCommand = new DelegateCommand(
 			() =>
 			{
@@ -91,6 +114,7 @@ public class MainViewModel : ViewModel
 	public IDelegateCommand SetOutputFolderPreferenceCommand { get; }
 	public IDelegateCommand PromptForOutputFolderCommand { get; }
 	public IDelegateCommand AddFileCommand { get; }
+	public IDelegateCommand AddFolderCommand { get; }
 	public IDelegateCommand ClearCommand { get; }
 	public IDelegateCommand ConvertCommand { get; set; }
 

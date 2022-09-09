@@ -54,6 +54,12 @@
 						<Button
 							Margin="6,0,0,0"
 							Padding="6,1"
+							Command="{Binding AddFolderCommand}">
+							+F_older
+						</Button>
+						<Button
+							Margin="6,0,0,0"
+							Padding="6,1"
 							Command="{Binding ClearCommand}">
 							Cl_ear
 						</Button>
@@ -80,7 +86,7 @@
 							</Style.Triggers>
 						</Style>
 					</TextBlock.Style>
-					Add files via the &quot;+&quot; buttons above.
+					Add files &amp; folders via the &quot;+&quot; buttons above.
 				</TextBlock>
 
 				<!-- Job list -->
